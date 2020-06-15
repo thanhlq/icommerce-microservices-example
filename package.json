@@ -1,0 +1,28 @@
+{
+  "name": "icommerce-microservices-example",
+  "version": "1.0.0",
+  "description": "A example application demonstration of the microservice architecture with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thanhlq/icommerce-microservices-example.git"
+  },
+  "keywords": [
+    "iCommerce",
+    "microservice",
+    "nodejs"
+  ],
+  "author": "Thanh LE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thanhlq/icommerce-microservices-example/issues"
+  },
+  "homepage": "https://github.com/thanhlq/icommerce-microservices-example#readme",
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "lerna": "^3.22.1"
+  }
+}

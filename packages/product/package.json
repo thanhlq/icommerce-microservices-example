@@ -1,0 +1,36 @@
+{
+  "name": "@ThanhLE/product",
+  "version": "1.0.0",
+  "description": "Microservice Product",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thanhlq/icommerce-microservices-example.git"
+  },
+  "keywords": [
+    "product",
+    "icommerce",
+    "microservices",
+    "nodejs"
+  ],
+  "author": "Thanh LE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thanhlq/icommerce-microservices-example/issues"
+  },
+  "homepage": "https://github.com/thanhlq/icommerce-microservices-example#readme",
+  "dependencies": {
+    "@ThanhLE/logger": "^1.0.0",
+    "@ThanhLE/pubsub-redis": "^1.0.0",
+    "compression": "^1.7.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.18"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0"
+  }
+}

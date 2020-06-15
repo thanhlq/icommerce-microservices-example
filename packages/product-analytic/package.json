@@ -1,0 +1,21 @@
+{
+  "name": "@ThanhLE/product-analytic",
+  "version": "1.0.0",
+  "description": "Microservice Product Analytic",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thanhlq/icommerce-microservices-example.git"
+  },
+  "keywords": [
+    "Product",
+    "Analytic",
+    "Microservice",
+    "Node.js"
+  ],
+  "author": "Thanh LE",
+  "license": "MIT"
+}

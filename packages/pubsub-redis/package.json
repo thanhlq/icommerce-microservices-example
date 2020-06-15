@@ -1,0 +1,22 @@
+{
+  "name": "@ThanhLE/pubsub-redis",
+  "version": "1.0.0",
+  "description": "This module is to support pubsub event to a redis server.",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thanhlq/icommerce-microservices-example.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "Thanh LE",
+  "license": "MIT",
+  "dependencies": {
+    "redis": "^3.0.2"
+  }
+}

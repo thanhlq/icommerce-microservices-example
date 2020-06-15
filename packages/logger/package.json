@@ -1,0 +1,21 @@
+{
+  "name": "@ThanhLE/logger",
+  "version": "1.0.0",
+  "description": "Logger",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "logger",
+    "node.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Thanh LE",
+  "license": "MIT",
+  "dependencies": {
+    "winston": "^3.2.1"
+  }
+}
