@@ -2,7 +2,7 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/products",
+      "path": "/api/v1/products",
       "handler": "product.list",
       "config": {
         "auth": false
@@ -10,7 +10,7 @@
     },
     {
       "method": "GET",
-      "path": "/products/count",
+      "path": "/api/v1/products/count",
       "handler": "product.count",
       "config": {
         "auth": false
@@ -18,7 +18,7 @@
     },
     {
       "method": "GET",
-      "path": "/products/:id",
+      "path": "/api/v1/products/:id",
       "handler": "product.findOne",
       "config": {
         "auth": false
@@ -26,7 +26,7 @@
     },
     {
       "method": "POST",
-      "path": "/products",
+      "path": "/api/v1/products",
       "handler": "product.create",
       "config": {
         "auth": false
@@ -34,7 +34,7 @@
     },
     {
       "method": "POST",
-      "path": "/products/search",
+      "path": "/api/v1/products/search",
       "handler": "product.search",
       "config": {
         "auth": false
@@ -42,7 +42,7 @@
     },
     {
       "method": "PUT",
-      "path": "/products/:id",
+      "path": "/api/v1/products/:id",
       "handler": "product.update",
       "config": {
         "auth": false
@@ -50,7 +50,7 @@
     },
     {
       "method": "DELETE",
-      "path": "/products/:id",
+      "path": "/api/v1/products/:id",
       "handler": "product.delete",
       "config": {
         "auth": false

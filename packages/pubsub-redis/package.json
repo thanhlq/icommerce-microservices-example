@@ -1,6 +1,6 @@
 {
-  "name": "@ThanhLE/pubsub-redis",
-  "version": "1.0.0",
+  "name": "@icommerce/pubsub-redis",
+  "version": "0.0.1",
   "description": "This module is to support pubsub event to a redis server.",
   "main": "",
   "scripts": {

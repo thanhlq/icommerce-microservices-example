@@ -3,6 +3,16 @@
 const db = require('../db/db-manager')();
 db.startDatabaseConnection();
 
+db.onDbConnected(async () => {
+  const productDS = db.getProductDataService();
+  const productCount = await productDS.countDocuments({});
+  if (productCount === 0) {
+    const sampleProducts = require('./sample-product.json');
+    const result = await productDS.insertMany(sampleProducts);
+    db.getLogger().info('Created sample product data: ' +JSON.stringify(result));
+  }
+});
+
 module.exports = {
 
   /**
@@ -13,9 +23,14 @@ module.exports = {
    *
    * @return {Promise<void>}
    */
-  searchProducts: async (query) => {
+  ds_SearchProducts: async (query) => {
 
 
+  },
+
+  ds_ListProducts: async (query) => {
+    const productDS = db.getProductDataService();
+    return productDS.find({}, '', {lean: true});
   }
 
 };

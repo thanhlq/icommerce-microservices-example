@@ -1,6 +1,6 @@
 {
-  "name": "@ThanhLE/logger",
-  "version": "1.0.0",
+  "name": "@icommerce/logger",
+  "version": "0.0.1",
   "description": "Logger",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,7 @@
   "author": "Thanh LE",
   "license": "MIT",
   "dependencies": {
-    "winston": "^3.2.1"
+    "dotenv": "^8.2.0",
+    "@blueprod/logger": "^0.1.8"
   }
 }

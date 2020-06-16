@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const DB_NAME_DEFAULT = 'productdb';
-const logger = require('@ThanhLE/logger')('product');
+const logger = require('@icommerce/logger')('product');
 
 /**
  * The class for managing of the database connection and loading of the product data service.
@@ -11,6 +11,24 @@ class DatabaseManager {
 
   isDbConnected = false;
   productionDataService = null;
+  /* For external listener */
+  onDbConnectedCb;
+
+  constructor() {
+    this.logger = logger;
+  }
+
+  getLogger() {
+    return this.logger;
+  }
+
+  onDbConnected(callback) {
+    if (this.isDbConnected) {
+      callback(this);
+    } else {
+      this.onDbConnectedCb = callback;
+    }
+  }
 
   /**
    * Get product database data service.
@@ -19,6 +37,7 @@ class DatabaseManager {
     if (!this.isDbConnected) {
       throw new Error('Database is not ready!');
     }
+    return this.productionDataService;
   }
 
   /**
@@ -48,6 +67,10 @@ class DatabaseManager {
     db.once('open', () => {
       logger.info('Database connection opened.');
       this.isDbConnected = true;
+      if (this.onDbConnectedCb) {
+        this.onDbConnectedCb(this);
+        delete this.onDbConnectedCb;
+      }
     });
 
     const SchemaDef = require('../models/product');
