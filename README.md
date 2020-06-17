@@ -77,3 +77,9 @@ Global structure:
   |-- scripts: utilities for installing of needed software.
 ```
 
+
+# APPENDIX
+
+Things to improve:
+
+* Loading/starting of the microservices could be shared in common code.

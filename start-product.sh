@@ -3,7 +3,7 @@
 #lerna clean
 #lerna bootstrap
 
-echo "Starting product service!"
-
+echo ""
+echo "Starting PRODUCT service!"
+echo ""
 (cd packages/product/ && node app.js)
-

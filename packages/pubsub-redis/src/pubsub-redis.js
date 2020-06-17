@@ -5,6 +5,7 @@
 // └───────────────────────────────────────────────────────────────────────────┘
 
 const redisClient = require("redis");
+const logger = require('@blueprod/logger')('pubsub-redis');
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // | IMPORT --                                                                 |
@@ -30,13 +31,36 @@ const DEFAULT_REDIS_CONNECTION = Object.freeze({
 // | CLASS DECLARATION ++                                                      |
 // └───────────────────────────────────────────────────────────────────────────┘
 
+function isJson(str) {
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+}
+
 const PubSubRedis = function (opts = {}) {
   this.topicListeners = {};
+  opts.no_ready_check = true;
   this.subscriber = this.publisher = redisClient.createClient(opts);
   this.subscriber.on('message', (channel, message) => {
     const listener = this.topicListeners[channel];
-    listener(message);
+    if (listener) {
+      const jsonObj = isJson(message);
+      listener(jsonObj === false ? message : jsonObj);
+    } else {
+      logger.debug(`Message come but NO listener for topic ${channel}`);
+    }
   });
+
+  if (opts.password) {
+    this.subscriber.auth(opts.password, () => {
+      logger.info('Subscribe connected and authenticated!');
+    });
+    this.publisher.auth(opts.password, () => {
+      logger.info('Publisher connected and authenticated!');
+    });
+  }
 };
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
@@ -49,16 +73,13 @@ const PubSubRedis = function (opts = {}) {
 // └───────────────────────────────────────────────────────────────────────────┘
 
 module.exports = function (opts = {}) {
-  let connection = {
+  const redisOpts = {
     host: opts.host || process.env.REDIS_HOST || DEFAULT_REDIS_CONNECTION.host,
-    port: opts.port || process.env.REDIS_PORT || DEFAULT_REDIS_CONNECTION.port
+    port: opts.port || process.env.REDIS_PORT || DEFAULT_REDIS_CONNECTION.port,
+    password: opts.password || process.env.REDIS_PASSWORD,
   };
 
-  if (opts.password) {
-    connection.password = opts.password
-  }
-
-  return new PubSubRedis(connection);
+  return new PubSubRedis(redisOpts);
 };
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
@@ -77,30 +98,27 @@ module.exports = function (opts = {}) {
  * @return {boolean}
  */
 PubSubRedis.prototype.on = function (topic, listener) {
-  const self = this;
-
-  if (self.topicListeners[topic]) {
-    self.unsubscribe(topic);
+  if (this.topicListeners[topic]) {
+    this.unsubscribe(topic);
   }
 
-  self.subscriber.subscribe(topic);
-  self.topicListeners[topic] = listener;
+  this.subscriber.subscribe(topic);
+  this.topicListeners[topic] = listener;
 };
 
 PubSubRedis.prototype.emit = function (topic, eventData) {
-  const self = this;
   let event = {
     topic: topic,
+    /* Need for the cluster mode */
     pid: process.pid,
     data: eventData,
   };
 
-  self.publisher.publish(topic, JSON.stringify(event));
+  return this.publisher.publish(topic, JSON.stringify(event));
 };
 
 PubSubRedis.prototype.unsubscribe = function (topic) {
-  const self = this;
-  self.subscriber.unsubscribe(topic);
+  this.subscriber.unsubscribe(topic);
 };
 
 // ┌───────────────────────────────────────────────────────────────────────────┐

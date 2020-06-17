@@ -2,7 +2,7 @@
   "name": "@icommerce/pubsub-redis",
   "version": "0.0.1",
   "description": "This module is to support pubsub event to a redis server.",
-  "main": "",
+  "main": "src/pubsub-redis.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,7 @@
   "author": "Thanh LE",
   "license": "MIT",
   "dependencies": {
+    "@blueprod/logger": "^0.1.8",
     "redis": "^3.0.2"
   }
 }

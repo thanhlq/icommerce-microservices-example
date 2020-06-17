@@ -1,8 +1,21 @@
 'use strict';
 
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// | IMPORT ++                                                                 |
+// └───────────────────────────────────────────────────────────────────────────┘
+
 const db = require('../db/db-manager')();
+const _ = require('lodash');
+/* config connection in .env */
+const pubsub = require('@icommerce/pubsub-redis')();
+
+// ┌───────────────────────────────────────────────────────────────────────────┐
+// | IMPORT --                                                                 |
+// └───────────────────────────────────────────────────────────────────────────┘
+
 db.startDatabaseConnection();
 
+/* Listen to create sample products */
 db.onDbConnected(async () => {
   const productDS = db.getProductDataService();
   const productCount = await productDS.countDocuments({});
@@ -13,7 +26,48 @@ db.onDbConnected(async () => {
   }
 });
 
+const ALLOW_PRODUCT_FILTER_FIELDS = {
+  'name': 'name',
+  'color': 'color',
+  'branch': 'branch',
+  'code': 'code',
+  'price': 'price',
+}
+
+const PRODUCT_SEARCH_EVENT = 'product:search';
+
 class ProductService {
+
+  /**
+   * List products.
+   *
+   * @param params
+   * @return {Promise<*>}
+   */
+  async ds_ListProducts(params = {}) {
+    const productDS = db.getProductDataService();
+    const filter = {};
+
+    /* copy allowed filter value from user params */
+    if (!_.isEmpty(params)) {
+      for (let [key, value] of Object.entries(ALLOW_PRODUCT_FILTER_FIELDS)) {
+        const val = params[key];
+        if (val) {
+          /* i.e. name, price,... match filter value */
+          /* short query: '/${value}/i' */
+          filter[val] = { '$regex': value, '$options': 'i' };
+        }
+      }
+
+      if (!_.isEmpty(filter)) {
+        /* Fire event for other service to save for analytic */
+        pubsub.emit(PRODUCT_SEARCH_EVENT, filter);
+      }
+    }
+    const dbQuery = productDS.find(filter, '', {lean: true});
+    this.internalDetectSort(dbQuery, params);
+    return await dbQuery.exec();
+  }
 
   /**
    * This function is responsible for searching of products from database (text search).
@@ -26,6 +80,13 @@ class ProductService {
    */
   async ds_SearchProducts(params) {
     const productDS = db.getProductDataService();
+    const searchText = params.q;
+
+    if (searchText) {
+      /* Fire event for other service to save for analytic */
+      pubsub.emit(PRODUCT_SEARCH_EVENT, {searchText});
+    }
+
     const dbQuery = productDS
       .find(params.q ? {$text: {$search: params.q}} : {},
         null,
@@ -57,19 +118,6 @@ class ProductService {
     return dbQuery;
   }
 
-  /**
-   * List products.
-   *
-   * @param params
-   * @return {Promise<*>}
-   */
-  async ds_ListProducts(params = {}) {
-    const productDS = db.getProductDataService();
-    const dbQuery = productDS.find({}, '', {lean: true});
-    this.internalDetectSort(dbQuery, params);
-    return await dbQuery.exec();
-  }
-
   async ds_CountProducts(filter = {}) {
     const productDS = db.getProductDataService();
     return await productDS.countDocuments(filter).exec();
@@ -82,7 +130,11 @@ class ProductService {
 
   async ds_GetProductDetail(id) {
     const productDS = db.getProductDataService();
-    return await productDS.findOne({_id: id}, '', {lean: true}).exec();
+    const product = await productDS.findOne({_id: id}, '', {lean: true}).exec();
+    if (product) {
+      pubsub.emit(PRODUCT_SEARCH_EVENT, product);
+    }
+    return product;
   }
 
   async ds_GetProductDetailByMyQuery(filter) {

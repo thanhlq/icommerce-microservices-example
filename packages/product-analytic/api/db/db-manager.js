@@ -10,7 +10,7 @@ const logger = require('@icommerce/logger')('product');
 class DatabaseManager {
 
   isDbConnected = false;
-  dsProduct = null;
+  dsProductAnalytic = null;
   /* For external listener */
   onDbConnectedCb;
 
@@ -33,11 +33,11 @@ class DatabaseManager {
   /**
    * Get product database data service.
    */
-  getProductDataService() {
+  getProductAnalyticDataService() {
     if (!this.isDbConnected) {
       throw new Error('Database is not ready!');
     }
-    return this.dsProduct;
+    return this.dsProductAnalytic;
   }
 
   /**
@@ -73,10 +73,9 @@ class DatabaseManager {
       }
     });
 
-    const SchemaDef = require('../models/product');
-    const schema = new mongoose.Schema(SchemaDef, {collection: 'products', timestamps: true});
-    schema.index({ name: 'text', color: 'text', code: 'text', branch: 'text', price: 'text' });
-    this.dsProduct = mongoose.model('Product', schema);
+    const SchemaDef = require('../models/product-analytic');
+    const schema = new mongoose.Schema(SchemaDef, {collection: 'products_analytics', timestamps: true});
+    this.dsProductAnalytic = mongoose.model('ProductAnalytic', schema);
     logger.info('ProductDataService initialized!');
     return this;
   }

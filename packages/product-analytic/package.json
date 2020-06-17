@@ -1,5 +1,5 @@
 {
-  "name": "@ThanhLE/product-analytic",
+  "name": "@icommerce/product-analytic",
   "version": "1.0.0",
   "description": "Microservice Product Analytic",
   "main": "index.js",
@@ -16,6 +16,21 @@
     "Microservice",
     "Node.js"
   ],
+  "dependencies": {
+    "@blueprod/ws-mvc-loader": "^0.1.1",
+    "@icommerce/pubsub-redis": "^0.0.1",
+    "@icommerce/logger": "^0.0.1",
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.18"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "mocha": "^8.0.1"
+  },
   "author": "Thanh LE",
   "license": "MIT"
 }
