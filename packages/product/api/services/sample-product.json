@@ -1,9 +1,16 @@
 [
   {
-    "name": "Mac Book Pro 16",
+    "name": "MacBook Pro 16",
     "code": "mp-pro-16",
-    "color": "space grey",
+    "color": "space gray",
     "price": 2600,
+    "branch": "Apple Inc"
+  },
+  {
+    "name": "MacBook Pro 13",
+    "code": "mp-pro-13",
+    "color": "space gray",
+    "price": 2300,
     "branch": "Apple Inc"
   },
   {
@@ -12,5 +19,13 @@
     "color": "gray",
     "price": 1600,
     "branch": "Dell Inc."
+  },
+  {
+    "name": "Dell XPS 13",
+    "code": "xps-13",
+    "color": "gray",
+    "price": 1200,
+    "branch": "Dell Inc."
   }
+
 ]

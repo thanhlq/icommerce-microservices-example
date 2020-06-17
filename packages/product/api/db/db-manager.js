@@ -5,7 +5,7 @@ const DB_NAME_DEFAULT = 'productdb';
 const logger = require('@icommerce/logger')('product');
 
 /**
- * The class for managing of the database connection and loading of the product data service.
+ * The class for managing of related database stuffs as connection, indexing, data service.
  */
 class DatabaseManager {
 
@@ -74,8 +74,9 @@ class DatabaseManager {
     });
 
     const SchemaDef = require('../models/product');
-    const Schema = new mongoose.Schema(SchemaDef, {collection: 'products'});
-    this.productionDataService = mongoose.model('Product', Schema);
+    const schema = new mongoose.Schema(SchemaDef, {collection: 'products'});
+    schema.index({ name: 'text', color: 'text', code: 'text', branch: 'text', price: 'text' });
+    this.productionDataService = mongoose.model('Product', schema);
     logger.info('ProductDataService initialized!');
     return this;
   }

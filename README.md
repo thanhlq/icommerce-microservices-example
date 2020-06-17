@@ -41,9 +41,31 @@ Quickly start all services:
 ./start.sh
 ```
 
+For execution of unit tests:
+
+```bash
+npm run test
+```
+
 Then, going to address: http://locahost:1981/api/v1products/
 
+## API Guides
+
+### Product Listing
+
+Method/Url: GET localhost:5500/api/v1/products
+ 
+### Product Search
+
+Method/Url: POST localhost:5500/api/v1/products/search?qd=Apple&sort=branch:desc
+
+ 
+
+
+
 ## Project Structure
+
+Global structure:
 
 ```
 ---
@@ -54,3 +76,4 @@ Then, going to address: http://locahost:1981/api/v1products/
         |-- pubsub-redis: a shared module for communication between service via the PubSub model (by using redis)
   |-- scripts: utilities for installing of needed software.
 ```
+

@@ -19,7 +19,7 @@
     {
       "method": "GET",
       "path": "/api/v1/products/:id",
-      "handler": "product.findOne",
+      "handler": "product.getDetail",
       "config": {
         "auth": false
       }
