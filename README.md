@@ -59,8 +59,14 @@ In the common api, you can specify the sort criteria in the query parameter as f
 
 ### Product Listing & Filtering
 
-* List all products -> <code>GET localhost:5500/api/v1/products</code>
-* List all products with sorting (sort by branches and price) -> <code>GET localhost:5500/api/v1/products?sort=branch:desc,price:asc</code>
+* List products -> <code>GET localhost:5500/api/v1/products</code>
+* List products with sorting (sort by branches and price) -> <code>GET localhost:5500/api/v1/products?sort=branch:desc,price:asc</code>
+* List products with price in range -> <code>localhost:5500/api/v1/products?price=gte:1600:lt:3000</code>
+  * Supported price operators:
+    * gt: Matches values that are greater than a specified value.
+    * gte: Matches values that are greater than or equal to a specified value.
+    * gt: Matches values that are less than a specified value.
+    * gte: Matches values that are less than or equal to a specified value.
 
 ### Product Search
 

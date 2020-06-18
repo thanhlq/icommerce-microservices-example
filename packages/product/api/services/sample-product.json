@@ -26,6 +26,13 @@
     "color": "gray",
     "price": 1200,
     "branch": "Dell Inc."
+  },
+  {
+    "name": "Dell Precision 7750",
+    "code": "precision-7750",
+    "color": "gray",
+    "price": 3500,
+    "branch": "Dell Inc."
   }
 
 ]
