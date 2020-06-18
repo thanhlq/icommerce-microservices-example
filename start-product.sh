@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #lerna clean
-#lerna bootstrap
+lerna bootstrap
 
 echo ""
 echo "Starting PRODUCT service!"

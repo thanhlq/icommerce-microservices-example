@@ -47,7 +47,7 @@ class DatabaseManager {
   startDatabaseConnection() {
     const connUrl = {
       url: `mongodb://${process['env']['DB_HOST'] || 'localhost'}:
-        ${process['env']['DB_PORT'] || 27017}/${process['env']['PRODUCT_DB_NAME'] || DB_NAME_DEFAULT}`,
+        ${process['env']['DB_PORT'] || 27017}/${process['env']['PRODUCT_ANALYTIC_DB_NAME'] || DB_NAME_DEFAULT}`,
       options: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -65,7 +65,7 @@ class DatabaseManager {
     });
 
     db.once('open', () => {
-      logger.info('Database connection opened.');
+      logger.info('Database connection opened: ' + connUrl.url);
       this.isDbConnected = true;
       if (this.onDbConnectedCb) {
         this.onDbConnectedCb(this);
@@ -85,12 +85,11 @@ class DatabaseManager {
 /**
  * @return {DatabaseManager}
  */
-module.exports = function() {
-  let instance = process['env']['db-manager'];
+module.exports = function () {
   /* singleton */
+  let instance = process['ProductAnaDbMan'];
   if (!instance) {
-    instance = new DatabaseManager();
-    process['env']['db-manager'] = instance;
+    instance = process['ProductAnaDbMan'] = new DatabaseManager();
   }
   return instance;
 }

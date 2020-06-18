@@ -65,7 +65,7 @@ class DatabaseManager {
     });
 
     db.once('open', () => {
-      logger.info('Database connection opened.');
+      logger.info('Database connection opened: ' +connUrl.url);
       this.isDbConnected = true;
       if (this.onDbConnectedCb) {
         this.onDbConnectedCb(this);
@@ -87,11 +87,10 @@ class DatabaseManager {
  * @return {DatabaseManager}
  */
 module.exports = function() {
-  let instance = process['env']['db-manager'];
   /* singleton */
+  let instance = process['ProductDbMan'];
   if (!instance) {
-    instance = new DatabaseManager();
-    process['env']['db-manager'] = instance;
+    instance = process['ProductDbMan'] = new DatabaseManager();
   }
   return instance;
 }

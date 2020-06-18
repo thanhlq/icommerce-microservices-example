@@ -15,10 +15,11 @@ const logger = require('@icommerce/logger')('product');
 // | IMPORT --                                                                 |
 // └───────────────────────────────────────────────────────────────────────────┘
 
+const app = express();
+
 (async () => {
   /* This output should contain the right defined controllers/routes */
   const mvcModel = await loadMvcRoutes();
-  const app = express();
   app.use(bodyParser.json());
 
   /* Binding api routes */
@@ -44,3 +45,5 @@ async function loadMvcRoutes() {
   const mvcLoader = new MVCLoader();
   return await mvcLoader.load(__dirname);
 }
+
+module.exports = app;

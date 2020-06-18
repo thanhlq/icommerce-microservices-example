@@ -51,17 +51,55 @@ Then, going to address: http://locahost:1981/api/v1products/
 
 ## API Guides
 
-### Product Listing
+In the common api, you can specify the sort criteria in the query parameter as following (default is ascending - asc):
 
-Method/Url: GET localhost:5500/api/v1/products
- 
+* Single field: .../products/sort=name
+* Single field and descending: .../products/sort=name:desc
+* Multiple fields: .../products/sort=branch,price:desc
+
+### Product Listing & Filtering
+
+* List all products -> <code>GET localhost:5500/api/v1/products</code>
+* List all products with sorting (sort by branches and price) -> <code>GET localhost:5500/api/v1/products?sort=branch:desc,price:asc</code>
+
 ### Product Search
 
-Method/Url: POST localhost:5500/api/v1/products/search?qd=Apple&sort=branch:desc
+This api allows search product by text. You can also specify sort criteria.
 
+* Search product by text <code>POST localhost:5500/api/v1/products/search?q=Apple&sort=branch:desc,price</code>
+
+### Product Detail/Create/Update
+
+* Get product detail <code>GET localhost:5500/api/v1/products/id_xxx</code>
+* Delete a product <code>DELETE localhost:5500/api/v1/products/id_xxx</code>
+* Update a product <code>PUT localhost:5500/api/v1/products/id_xxx</code>
+
+* Create a product <code>POST localhost:5500/api/v1/products</code>
+
+Example code to create a product with curl command:
+
+```bash
+curl --location --request POST 'localhost:5500/api/v1/products' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "MacBook Air 12",
+    "code": "mp-air-12",
+    "color": "space gray",
+    "price": 1200,
+    "branch": "Apple Inc"
+  }'
+```
  
+### Product Analytic Data
 
+This api tries to give a basic data analytic of customer's product searching/filtering.
 
+* To get product analytic data: <code>GET localhost:5501/api/v1/products-analytics</code>
+
+The return data is as following:
+
+* Counting of the number of searched field (by name, color, branch,...), for example, search by product name 2 times.
+* Detailed searched data, for example, "Dell XPS"
 
 ## Project Structure
 
@@ -80,6 +118,10 @@ Global structure:
 
 # APPENDIX
 
-Things to improve:
+## Limitations of This Implementation
 
+* Listing products with filtering as price range is not implemented - ?price:1200:3000 
+* No separation of the business service and the data service yet, in fact, the data service - data CRUD operations should be in db layer.
+* Unit tests, I gave some unit tests with Product service as well the API test but not all tests have been implemented - only samples.
 * Loading/starting of the microservices could be shared in common code.
+* Integration test is not implemented yet.

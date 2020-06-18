@@ -4,7 +4,7 @@
 // | IMPORT ++                                                                 |
 // └───────────────────────────────────────────────────────────────────────────┘
 
-const productService = require('../services/product');
+const productService = require('../services/product-service');
 const logger = require('@icommerce/logger')('product');
 const _ = require('lodash');
 

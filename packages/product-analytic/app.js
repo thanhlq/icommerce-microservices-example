@@ -11,7 +11,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('@icommerce/logger')('product-analytic');
 /* Bootstrap the service so that it can listen for incoming customer's search data from product service */
-require('./api/services/product-analytic');
+require('./api/services/product-analytic-service');
 
 // ┌───────────────────────────────────────────────────────────────────────────┐
 // | IMPORT --                                                                 |

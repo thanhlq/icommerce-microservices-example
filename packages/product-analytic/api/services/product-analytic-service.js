@@ -17,7 +17,7 @@ db.startDatabaseConnection();
 const PRODUCT_SEARCH_EVENT = 'product:search';
 
 class ProductAnalyticService {
-  
+
   constructor() {
     pubsub.on(PRODUCT_SEARCH_EVENT, async (event) => {
       const productDS = db.getProductAnalyticDataService();
@@ -29,7 +29,7 @@ class ProductAnalyticService {
           await productDS.create(productSearch);
           logger.debug('Saved customer analytic search: ' + JSON.stringify(productSearch));
         } catch (e) {
-          logger.error('Error when saving customer searching dta');
+          logger.error('Error when saving customer searching data');
           logger.error(e);
         }
       }
@@ -47,10 +47,12 @@ class ProductAnalyticService {
     /* i.e. how many times customers search by name, color, etc... */
     const globalAnalyticData = {};
     const name = await productDS.aggregate([
+      // {$match: {name: {$gt: ['$name', null]}}},
+      {$match: {name: {$exists: true}}},
       {
         $group: {
-          _id: "$name",
-          count: { $sum: 1 }
+          _id: '$name',
+          count: {$sum: 1}
         }
       },
     ]);
@@ -61,10 +63,11 @@ class ProductAnalyticService {
     }
 
     const branch = await productDS.aggregate([
+      {$match: {branch: {$exists: true}}},
       {
         $group: {
-          _id: "$branch",
-          count: { $sum: 1 }
+          _id: '$branch',
+          count: {$sum: 1}
         }
       },
     ]);
@@ -74,10 +77,11 @@ class ProductAnalyticService {
     }
 
     const color = await productDS.aggregate([
+      {$match: {color: {$exists: true}}},
       {
         $group: {
-          _id: "$color",
-          count: { $sum: 1 }
+          _id: '$color',
+          count: {$sum: 1}
         }
       },
     ]);
@@ -87,10 +91,11 @@ class ProductAnalyticService {
     }
 
     const price = await productDS.aggregate([
+      {$match: {price: {$exists: true}}},
       {
         $group: {
-          _id: "$price",
-          count: { $sum: 1 }
+          _id: '$price',
+          count: {$sum: 1}
         }
       },
     ]);
@@ -100,10 +105,11 @@ class ProductAnalyticService {
     }
 
     const searchText = await productDS.aggregate([
+      {$match: {searchText: {$exists: true}}},
       {
         $group: {
-          _id: "$searchText",
-          count: { $sum: 1 }
+          _id: '$searchText',
+          count: {$sum: 1}
         }
       },
     ]);

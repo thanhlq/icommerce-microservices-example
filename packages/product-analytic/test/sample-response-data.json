@@ -1,0 +1,66 @@
+{
+  "message": "Product Analytic Data",
+  "data": {
+    "name": {
+      "count": 2,
+      "searchedData": [
+        {
+          "_id": "Dell XPS 13",
+          "count": 2
+        },
+        {
+          "_id": "MacBook Air 11",
+          "count": 3
+        }
+      ]
+    },
+    "branch": {
+      "count": 2,
+      "searchedData": [
+        {
+          "_id": "Dell Inc.",
+          "count": 2
+        },
+        {
+          "_id": "Apple Inc",
+          "count": 3
+        }
+      ]
+    },
+    "color": {
+      "count": 2,
+      "searchedData": [
+        {
+          "_id": "gray",
+          "count": 2
+        },
+        {
+          "_id": "space gray",
+          "count": 3
+        }
+      ]
+    },
+    "price": {
+      "count": 2,
+      "searchedData": [
+        {
+          "_id": 1000,
+          "count": 3
+        },
+        {
+          "_id": 1200,
+          "count": 2
+        }
+      ]
+    },
+    "searchText": {
+      "count": 1,
+      "searchedData": [
+        {
+          "_id": null,
+          "count": 5
+        }
+      ]
+    }
+  }
+}

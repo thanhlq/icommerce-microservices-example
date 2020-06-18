@@ -17,13 +17,16 @@ db.startDatabaseConnection();
 
 /* Listen to create sample products */
 db.onDbConnected(async () => {
-  const productDS = db.getProductDataService();
-  const productCount = await productDS.countDocuments({});
-  if (productCount === 0) {
-    const sampleProducts = require('./sample-product.json');
-    const result = await productDS.insertMany(sampleProducts);
-    db.getLogger().info('Created sample product data: ' + JSON.stringify(result));
+  if (process.env.CREATE_SAMPLE_PRODUCTS === 'true') {
+    const productDS = db.getProductDataService();
+    const productCount = await productDS.countDocuments({});
+    if (productCount === 0) {
+      const sampleProducts = require('./sample-product.json');
+      const result = await productDS.insertMany(sampleProducts);
+      db.getLogger().info('Created sample product data: ' + JSON.stringify(result));
+    }
   }
+
 });
 
 const ALLOW_PRODUCT_FILTER_FIELDS = {
@@ -46,25 +49,28 @@ class ProductService {
    */
   async ds_ListProducts(params = {}) {
     const productDS = db.getProductDataService();
-    const filter = {};
+    const dbFilter = {};
+    const analyticData = {};
 
     /* copy allowed filter value from user params */
     if (!_.isEmpty(params)) {
-      for (let [key, value] of Object.entries(ALLOW_PRODUCT_FILTER_FIELDS)) {
+      for (let entry of Object.entries(ALLOW_PRODUCT_FILTER_FIELDS)) {
+        const key = entry[0];
         const val = params[key];
         if (val) {
           /* i.e. name, price,... match filter value */
           /* short query: '/${value}/i' */
-          filter[val] = { '$regex': value, '$options': 'i' };
+          dbFilter[key] = { '$regex': val, '$options': 'i' };
+          analyticData[key] = val;
         }
       }
 
-      if (!_.isEmpty(filter)) {
+      if (!_.isEmpty(analyticData)) {
         /* Fire event for other service to save for analytic */
-        pubsub.emit(PRODUCT_SEARCH_EVENT, filter);
+        pubsub.emit(PRODUCT_SEARCH_EVENT, analyticData);
       }
     }
-    const dbQuery = productDS.find(filter, '', {lean: true});
+    const dbQuery = productDS.find(dbFilter, '', {lean: true});
     this.internalDetectSort(dbQuery, params);
     return await dbQuery.exec();
   }
@@ -150,6 +156,14 @@ class ProductService {
   async ds_UpdateProduct(id, doc) {
     const productDS = db.getProductDataService();
     return await productDS.updateOne({_id: id}, doc).exec();
+  }
+
+  /**
+   * Testing purpose.
+   * @return {Promise<any>}
+   */
+  async ds_DeleteAllProducts(filter = {}) {
+    return await db.getProductDataService().deleteMany(filter).exec();
   }
 }
 

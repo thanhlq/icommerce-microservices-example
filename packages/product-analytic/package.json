@@ -4,7 +4,7 @@
   "description": "Microservice Product Analytic",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "index.test.js"
   },
   "repository": {
     "type": "git",
