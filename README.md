@@ -1,4 +1,4 @@
-# iCommerce Application - An Example Of A Microservice Architecture
+# iCommerce BApplication - An Example Of A Microservice Architecture
 
 In this sample implementation, I created two microservices:
 
