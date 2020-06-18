@@ -126,7 +126,6 @@ Global structure:
 
 ## Limitations of This Implementation
 
-* Listing products with filtering as price range is not implemented - ?price:1200:3000 
 * No separation of the business service and the data service yet, in fact, the data service - data CRUD operations should be in db layer.
 * Unit tests, I gave some unit tests with Product service as well the API test but not all tests have been implemented - only samples.
 * Loading/starting of the microservices could be shared in common code.
