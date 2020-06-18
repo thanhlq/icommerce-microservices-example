@@ -1,4 +1,11 @@
-# iCommerce Application - An Example Of A Microservice Architecture 
+# iCommerce Application - An Example Of A Microservice Architecture
+
+In this sample implementation, I created two microservices:
+
+* Product microservice for serving of products to end customers.
+* Product Analytic microservice for serving of data analytic to the internal (sales/marketing/...) teams.
+
+The communication between services based on a Publish/Subscribe model. I used Redis for implementation of this communication. Of course, we have a lot of choice out these. 
 
 ## Software Dependencies & Installation
 
@@ -7,6 +14,7 @@ This application requires the following global software packages:
 * mongodb (recommended >= v4.0): For database storage.
 * redis (recommended >= v3.2): For communication between services.
 * lerna: For management of multiple node packages
+* mocha: For execution of unit tests (database & api tests)
 
 I provided some utility scripts for installation of these software packages.
 
@@ -55,12 +63,27 @@ For other ubuntu version, please see: [guide for installation on Ubuntu](https:/
 When the Product Analytic service started, it will listen for events from Product service
 as customer's product searching (text search), filtering...  and then save these data into database
 
-### For execution of unit tests:
+### Execution of Unit Tests:
 
 At the project root folder.
 
 ```bash
 npm run test
+```
+
+### Manual Integration Test
+
+After started 2 microservices, then in each action as get product detail, search, filter
+
+You can verify the saved analytic data as following:
+
+* In the console of the product analytic service, there will be a log entry printed as following: Saved customer analytic search: {"searchText":"Apple"} 
+* Or, you can goto the database to check
+
+```bash
+mongo
+use productdb
+db.products_analytics.find({})
 ```
 
 ## API Guides
@@ -149,7 +172,7 @@ You can see, with the structure above, you can extend each service or more servi
 * Unit tests, I gave some unit tests with Product service as well the API test but not all tests have been implemented - only samples.
 * Database management service could be in shared code.
 * Loading/starting of the microservices could be shared in common code.
-* Integration test is not implemented yet.
+* Automated integration test is not implemented yet.
 * No security configured for this app yet i.e. authentication/authorization/cors/...
 
 ## Database Schema
