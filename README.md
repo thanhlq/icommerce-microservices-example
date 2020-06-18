@@ -150,6 +150,7 @@ You can see, with the structure above, you can extend each service or more servi
 * Database management service could be in shared code.
 * Loading/starting of the microservices could be shared in common code.
 * Integration test is not implemented yet.
+* No security configured for this app yet i.e. authentication/authorization/cors/...
 
 ## Database Schema
 
@@ -216,5 +217,69 @@ Note: 3 fields _id, createdAt and updatedAt shall be automatically added.
     type: String,
     index: true,
   },
+}
+```
+
+## Example Of Analytic Data
+
+Explaining for data below - for instance the field "name":
+
+* name.count: customer made the data filtering by name for 1 times.
+* name.searchedData: the detailed data that customer typed to search and the counting.
+
+```json
+{
+    "message": "Product Analytic Data",
+    "data": {
+        "name": {
+            "count": 1,
+            "searchedData": [
+                {
+                    "_id": "Dell XPS 13",
+                    "count": 1
+                }
+            ]
+        },
+        "branch": {
+            "count": 1,
+            "searchedData": [
+                {
+                    "_id": "Dell Inc.",
+                    "count": 1
+                }
+            ]
+        },
+        "color": {
+            "count": 1,
+            "searchedData": [
+                {
+                    "_id": "gray",
+                    "count": 1
+                }
+            ]
+        },
+        "price": {
+            "count": 2,
+            "searchedData": [
+                {
+                    "_id": "gte:1600:lt:3000",
+                    "count": 2
+                },
+                {
+                    "_id": "1200",
+                    "count": 1
+                }
+            ]
+        },
+        "searchText": {
+            "count": 1,
+            "searchedData": [
+                {
+                    "_id": "Apple",
+                    "count": 1
+                }
+            ]
+        }
+    }
 }
 ```
