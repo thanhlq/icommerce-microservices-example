@@ -7,6 +7,10 @@ In this sample implementation, I created two microservices:
 
 The communication between services based on a Publish/Subscribe model. I used Redis for implementation of this communication. Of course, we have a lot of choice out these. 
 
+## Architecture
+
+![alt text](iCommerce-App-Architecture.png "Architecture Image")
+
 ## Software Dependencies & Installation
 
 This application requires the following global software packages:
