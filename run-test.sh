@@ -9,7 +9,7 @@ echo "Going to execute tests for the PRODUCT service!"
 echo ""
 (cd packages/product/ && npm test)
 
-echo ""
-echo "Going to execute tests for the PRODUCT ANALYTIC service!"
-echo ""
-(cd packages/product-analytic/ && npm test)
+#echo ""
+#echo "Going to execute tests for the PRODUCT ANALYTIC service!"
+#echo ""
+#(cd packages/product-analytic/ && npm test)

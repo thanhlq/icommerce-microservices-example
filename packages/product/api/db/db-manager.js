@@ -73,7 +73,7 @@ class DatabaseManager {
       }
     });
 
-    const SchemaDef = require('../models/product');
+    const SchemaDef = require('./models/product');
     const schema = new mongoose.Schema(SchemaDef, {collection: 'products', timestamps: true});
     schema.index({ name: 'text', color: 'text', code: 'text', branch: 'text', price: 'text' });
     this.dsProduct = mongoose.model('Product', schema);

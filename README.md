@@ -35,19 +35,33 @@ For other ubuntu version, please see: [guide for installation on Ubuntu](https:/
 
 ## Quickly Getting Started
 
-Quickly start all services:
+
+### Start the Product microservice:
 
 ```bash
-./start.sh
+./start-product.sh
 ```
 
-For execution of unit tests:
+* Checking the service at the url: http://locahost:1981/api/v1products/ You should have the list of sample products.
+
+### Start the Product-Analytic microservice:
+
+```bash
+./start-product-analytic.sh
+```
+
+* Checking the service at the url: http://localhost:5501/api/v1/products-analytics
+
+When the Product Analytic service started, it will listen for events from Product service
+as customer's product searching (text search), filtering...  and then save these data into database
+
+### For execution of unit tests:
+
+At the project root folder.
 
 ```bash
 npm run test
 ```
-
-Then, going to address: http://locahost:1981/api/v1products/
 
 ## API Guides
 
@@ -116,11 +130,16 @@ Global structure:
   |-- packages: containing the microservices (product, product analytic, shared node modules)
         |-- logger: a wrapper for open source logger implementation.
         |-- product: product microservice
+          |-- api
+            |-- controllers     Contain the http controllers (request handlers).
+            |-- services        Contain the business service layer.
+            |-- db              Contain the database layer.
         |-- product-analytic: product-analytic microservice
         |-- pubsub-redis: a shared module for communication between service via the PubSub model (by using redis)
   |-- scripts: utilities for installing of needed software.
 ```
 
+You can see, with the structure above, you can extend each service or more services in a very flexible way. 
 
 # APPENDIX
 
@@ -128,5 +147,74 @@ Global structure:
 
 * No separation of the business service and the data service yet, in fact, the data service - data CRUD operations should be in db layer.
 * Unit tests, I gave some unit tests with Product service as well the API test but not all tests have been implemented - only samples.
+* Database management service could be in shared code.
 * Loading/starting of the microservices could be shared in common code.
 * Integration test is not implemented yet.
+
+## Database Schema
+
+Note: 3 fields _id, createdAt and updatedAt shall be automatically added.
+
+### Product model (Mongoose/mongodb)
+
+```javascript
+{
+  name: {
+    type: String,
+    required: true,
+    index: true,
+  },
+  description: {
+    type: String,
+  },
+  code: {
+    type: String,
+    index: true,
+    unique: true
+  },
+  color: {
+    type: String,
+    index: true,
+  },
+  branch: {
+    type: String,
+    index: true,
+  },
+  price: {
+    type: Number,
+    index: true,
+  },
+}
+```
+
+### Product-Analytic model:
+
+```javascript
+{
+  /* the text the customer often search */
+  searchText: {
+    type: String,
+    index: true,
+  },
+  name: {
+    type: String,
+    index: true,
+  },
+  code: {
+    type: String,
+    index: true,
+  },
+  color: {
+    type: String,
+    index: true,
+  },
+  branch: {
+    type: String,
+    index: true,
+  },
+  price: {
+    type: String,
+    index: true,
+  },
+}
+```

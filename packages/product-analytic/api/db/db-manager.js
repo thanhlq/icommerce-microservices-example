@@ -73,7 +73,7 @@ class DatabaseManager {
       }
     });
 
-    const SchemaDef = require('../models/product-analytic');
+    const SchemaDef = require('./models/product-analytic');
     const schema = new mongoose.Schema(SchemaDef, {collection: 'products_analytics', timestamps: true});
     this.dsProductAnalytic = mongoose.model('ProductAnalytic', schema);
     logger.info('ProductDataService initialized!');

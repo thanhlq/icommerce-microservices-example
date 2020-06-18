@@ -23,7 +23,7 @@ module.exports = {
     index: true,
   },
   price: {
-    type: Number,
+    type: String,
     index: true,
   },
 }

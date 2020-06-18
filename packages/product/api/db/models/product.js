@@ -4,6 +4,9 @@ module.exports = {
     required: true,
     index: true,
   },
+  description: {
+    type: String,
+  },
   code: {
     type: String,
     index: true,
